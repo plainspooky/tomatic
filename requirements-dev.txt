@@ -1,0 +1,9 @@
+black
+flake8
+lxml
+mypy
+coverage
+pdoc
+pytest
+pytest-cov
+pytest-sugar
