@@ -3,7 +3,7 @@ from distutils.core import setup
 setup(
     name="tomatic",
     packages=["tomatic"],
-    version="0.1",
+    version="0.1.1",
     license="gpl-3.0",
     description="Tomatic is a library that helps to enable automatic configuration for python programas.",
     long_description=open("README.rst").read(),
