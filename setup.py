@@ -6,6 +6,7 @@ setup(
     version="0.1",
     license="gpl-3.0",
     description="Tomatic is a library that helps to enable automatic configuration for python programas.",
+    long_description=open("README.rst").read(),
     author="Giovanni Nunes",
     author_email="giovanni.nunes@gmail.com",
     url="https://github.com/plainspooky/tomatic",
