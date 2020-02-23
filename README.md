@@ -167,6 +167,5 @@ Tips
     | `DEFAULT__PAGE_LIMIT='10'` | `t.PAGE_LIMIT__int__ `| `10` |
     | `DEFAULT__ALLOWED_HOSTS='["127.0.0.1", "192.168."]'` | `t.ALLOWED_HOSTS__json__` | `["127.0.0.1", "192.168.",]` |
 
-
-
-And for more details, please, read the full documentation.
+---
+And for more details, please, read the [full documentation](https://plainspooky.github.io/tomatic/index.html).
