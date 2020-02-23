@@ -10,7 +10,7 @@ ROOT="$(dirname "$(readlink -f "$0")")"
 [[ ! $( which $PROGRAM ) ]] && pip3 install $PROGRAM
 
 REPORT_DIR="./reports"
-mkdir -p "$REPORT_DIR"
+mkdir -p "$REPORT_DIR/$MODULE"
 
 TEMPLATE_DIR="$ROOT/template"
 
