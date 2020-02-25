@@ -5,6 +5,7 @@ from os import environ
 from typing import Any, Callable, Optional
 
 from .buckets import BaseBucket
+from .datatypes import RaiseIfNoneType
 
 
 class Tomatic:
@@ -17,14 +18,15 @@ class Tomatic:
         bucket: type,
         static_profile: str = "",
         env_profile: str = "",
-        raise_if_none: Optional[type] = None,
+        raise_if_none: RaiseIfNoneType = None,
+        bucket_args: dict = {},
     ) -> None:
         """
         Initialize class receiving bucket object as `bucket` and profile
         in `static_profile` **or** as `env_profile`. Optionaly receive
         an exception to be raised in case of `None` values.
         """
-        self.__exception: Optional[type] = None
+        self.__exception: RaiseIfNoneType = None
         self.__raise: bool = False
 
         # does get profile from environment variable or by name?
@@ -32,7 +34,7 @@ class Tomatic:
 
         if profile:
             if issubclass(bucket, BaseBucket):
-                self.__bucket: Callable = bucket(profile)
+                self.__bucket: Callable = bucket(profile, bucket_args)
             else:
                 raise ValueError("Bucket must be a subclass of 'BaseBucket'!")
 
@@ -62,13 +64,3 @@ class Tomatic:
             )
 
         return value
-
-
-def fix(value: Any, default_value: Any) -> Any:
-    """
-    Force a correct behavior for boolean and other empty values, get
-    retrieved value as `value` and default value as `default_value`.
-    Return retrieved value if isnt's `None`, otherwise use default
-    value.
-    """
-    return value if value is not None else default_value

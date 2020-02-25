@@ -8,8 +8,6 @@ program.
 
 Buckets are simple interfaces for KEY/VALUE repositories.
 
-
-
 ## Buckets
 
 Buckets are simple interfaces for KEY/VALUE repositories that only
@@ -120,4 +118,5 @@ DEBUG = fix(t.DEBUG, True)
 This forces VALUE that came from **Tomatic** use even when it's empty and
 default value use only when`None` is returned.
 """
-from .core import Tomatic, fix
+from .core import Tomatic
+from .tools import fix

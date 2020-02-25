@@ -1,32 +1,11 @@
 """
 Bucket classes and routines.
 """
-import json
 from os import environ
-from typing import (
-    Any,
-    Dict,
-    List,
-    Optional,
-    Tuple,
-    Union,
-    SupportsFloat,
-    SupportsInt,
-)
+from typing import Any
 
-SEP = "__"
-
-TYPES = (
-    "bool",
-    "float",
-    "int",
-    "json",
-    "str",
-)
-
-ValueType = Union[
-    None, bool, bytes, bytearray, Dict, List, str, SupportsFloat, SupportsInt
-]
+from .datatypes import ValueType, ValueRawType
+from .tools import SEP, TYPES, get_type, type_cast
 
 
 class BaseBucket:
@@ -34,7 +13,11 @@ class BaseBucket:
     This class implements basic attributes and methods for Buckets.
     """
 
-    ...
+    def get(self, key: str) -> None:
+        """
+        Receive KEY as `key` and return `None`.
+        """
+        return None
 
 
 class DummyBucket(BaseBucket):
@@ -44,18 +27,13 @@ class DummyBucket(BaseBucket):
     KEY you try to get a VALUE.
     """
 
-    def __init__(self, profile: str) -> None:
+    def __init__(self, profile: str, args: dict = {}) -> None:
         """
         Initialize class using profile name as `profile` (but it's
         not used).
         """
         self.__profile = profile
-
-    def get(self, key: str) -> None:
-        """
-        Receive KEY as `key` and return `None`.
-        """
-        return None
+        self.__args = args
 
 
 class EnvironBucket(BaseBucket):
@@ -93,34 +71,22 @@ class EnvironBucket(BaseBucket):
     `PRODUCTION`.
     """
 
-    def __init__(self, profile: str) -> None:
+    def __init__(self, profile: str, args: dict = {}) -> None:
         """
         Initialize class uising profile name as `profile`.
         """
         self.__profile = profile
+        self.__args = args
 
-    def get_type(self, key_raw: str) -> Tuple[str, Optional[str]]:
+    def get(self, key_raw: str) -> Any:
         """
-        Check if there is a data type enconded on KEY as `key_raw`,
-        extract data type if exist and check. Return KEY without data
-        type encoded and type decoded (if exists) in a _tuple_.
+        Retrieve VALUE from a given KEY as `key_raw` and return it.
 
         To force type cast for a giver KEY use:
 
         ``` shell
         «PROFILE»>__«KEY»__«type»__
         ```
-
-        There are the following data types supported by this bucket:
-
-        * `__bool__` to convert VALUE to a boolean;
-        * `__float__` to convert VALUE to a floating point number;
-        * `__int__` to convert VALUE to a integer number;
-        * `__json__` to convert VALUE to dictionaries or lists and
-        * `__str__` to convert VALUE to a string (default bahavior).
-
-        Don't forget to keep "type" in lower case. All unrecognized
-        data types are treated as _string_.
 
         ## Example
 
@@ -150,27 +116,9 @@ class EnvironBucket(BaseBucket):
             "MEMORY_MIN": 100,
         }
         ```
-
-        To avoid mistakes handling with boolean or even empty values,
-        use `Tomatic.fix()` function.
-        """
-        # check if key name finishes with separator
-        if key_raw[-2:] == SEP:
-            # split key from bucket and datatype
-            key, datatype, __ = key_raw.split(SEP)
-            # and return key and its datatype (if supported)
-            return key, datatype if datatype in TYPES else None
-
-        key = key_raw
-
-        return key, None
-
-    def get(self, key_raw: str) -> Any:
-        """
-        Retrieve VALUE from a given KEY as `key_raw` and return it.
         """
         # filter key name and check fort datatype
-        key, datatype = self.get_type(key_raw)
+        key, datatype = get_type(key_raw)
 
         # get environment variable name
         variable = "{profile}{sep}{key}".format(
@@ -178,41 +126,6 @@ class EnvironBucket(BaseBucket):
         )
 
         # retrieve environment variable value
-        value_raw: Optional[str] = environ.get(variable)
+        value_raw: ValueRawType = environ.get(variable)
 
         return type_cast(datatype, value_raw) if datatype else value_raw
-
-
-def type_cast(datatype: str, value_raw: Union[None, str]) -> Any:
-    """
-    Convert a given _string_ to a specific data type, receive type to
-    use as `datatype` and value to convert as `value_raw`. Supported
-    data types are hardcoded here but there are on `TYPES` constant
-    as well.
-    """
-    value: ValueType = None
-
-    try:
-        if datatype == "bool":
-            if str(value_raw).lower() == "true":
-                value = True
-            elif str(value_raw).lower() == "false":
-                value = False
-
-        elif datatype == "float":
-            return float(str(value_raw))
-
-        elif datatype == "int":
-            return int(str(value_raw))
-
-        elif datatype == "json":
-            return json.loads(str(value_raw))
-
-        else:
-            # gues! yes, string...
-            return value_raw
-
-    except (AttributeError, TypeError, ValueError):
-        ...
-
-    return value
