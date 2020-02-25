@@ -9,6 +9,7 @@ import pytest
 from . import Tomatic, fix
 from .buckets import DummyBucket, EnvironBucket, type_cast
 
+# data types used by test routines
 EnvironType = Tuple[str, Any]
 EnvironDataType = Tuple[EnvironType, ...]
 
