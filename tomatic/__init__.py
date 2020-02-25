@@ -29,7 +29,7 @@ handle with two specific tasks:
 
 # How to use
 
-## Setup Tomatic
+## Tomatic setup
 
 Load **Tomatic** module and bucket class that you want to use in
 your code:
@@ -61,7 +61,7 @@ In this case **Tomatic** will get profile name direct from a environment variabl
 export CURRENT_PROFILE="HOMOLOG"
 ```
 
-## Setting KEY/VALUE pairs
+## Setting up KEY/VALUE pairs
 
 When using`EnvironBucket` you need to create your KEY/VALUE pairs using the following syntax:
 
@@ -83,17 +83,18 @@ The use of `or` statement is optional but it works providing a default
 value when KEY doesn't have a VALUE. So, if
 `HOMOLOG__API_HOST` there isn't defined, "localhost" is used.
 
-####  Forcing data types
+### Forcing data types
 
 For **Python**, environment variables are always _strings_, but you can force
-a specific data type conversion adding "\_\_«type»\__" as a suffix. To
-force `ITEMS_PER_PAGE`to be an integer instead of a string, use:
+a specific data type conversion adding `__«type»__` as a suffix.
+
+To force `ITEMS_PER_PAGE`to be an integer instead of a string, use:
 
 ``` python
 ITEMS_PER_PAGE = t.ITEMS_PER_PAGE__int__ or 15
 ```
 
-Supported types are:
+There are currently supported types:
 
 * Boolean (`__bool__`)
 * Floating Point (`__float__`)
@@ -102,6 +103,8 @@ Supported types are:
 * String* (`__str__`).
 
 (*) Default data type and can be omited.
+
+**Code example:**
 
 KEYS set as in operating system for `EnvironBucket` use:
 
@@ -130,7 +133,7 @@ HEALTH_CHECK = t.HEALTH_CHECK__json__ or {
 }
 ```
 
-#### Handling with empty values
+### Handling with empty values
 
 In **Python** a `False or True` comparison results `True`, and the same
 will happen with `0 or 1`, `"" or "some name"` etc... To avoid this behavior
