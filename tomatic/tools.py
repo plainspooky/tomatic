@@ -50,7 +50,7 @@ def get_type(key_raw: str) -> GotType:
 
 def type_cast(datatype: str, value_raw: ValueRawType) -> Any:
     """
-    Convert a given _string_ to a specific data type, receive type to
+    Convert a given string to a specific data type, receive type to
     use as `datatype` and value to convert as `value_raw`. Supported
     data types are hardcoded here but there are on `TYPES` constant
     as well.
@@ -64,7 +64,7 @@ def type_cast(datatype: str, value_raw: ValueRawType) -> Any:
     * `__str__` to convert VALUE to a string (default bahavior).
 
     Don't forget to keep "type" in lower case. All unrecognized
-    data types are treated as _string_.
+    data types are treated as string.
     """
     value: ValueType = None
 

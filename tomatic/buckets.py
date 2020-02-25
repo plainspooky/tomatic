@@ -51,7 +51,7 @@ class EnvironBucket(BaseBucket):
     * `PROFILE` is a name that groups KEYS;
     * `KEY` is a name to identify a specific VALUE and
     * `VALUE` is a value itself (dont't care about data types here,
-      for **Python** it's a _string_).
+      for **Python** it's always a string).
 
     Don't forget that a combinatiom of `profile` and `key` must be
     unique!
@@ -81,41 +81,6 @@ class EnvironBucket(BaseBucket):
     def get(self, key_raw: str) -> Any:
         """
         Retrieve VALUE from a given KEY as `key_raw` and return it.
-
-        To force type cast for a giver KEY use:
-
-        ``` shell
-        «PROFILE»>__«KEY»__«type»__
-        ```
-
-        ## Example
-
-        KEYS as set on operating system:
-
-        ``` shell
-        HOMOLOG__HOSTNAME="192.168.0.200"
-        HOMOLOG__MAX_RESULTS=200
-        HOMOLOG__DEBUG=false
-        HOMOLOG__HEALTH_CHECK='{"DISK_USAGE_MAX":80,"MEMORY_MIN":200}'
-        ```
-
-        **Python** code configured to properly handle with these KEYS:
-
-        ``` python
-        from tomatic import Tomaic, fix
-        from tomatic.buckets import EnvironBucket
-
-        t = Tomatic(EnvironBucket, static_profile="HOMOLOG")
-        ...
-        HOSTNAME = t.HOSTNAME__str__ or "localhost"
-        MAX_RESULTS = t.MAX_RESULTS__int__ or 10
-        DEBUG = t.fix(l.DEBUG__bool__, False)
-
-        HEALTH_CHECK = t.HEALTH_CHECK__json__ or {
-            "DISK_USAGE_MAX": 90,
-            "MEMORY_MIN": 100,
-        }
-        ```
         """
         # filter key name and check fort datatype
         key, datatype = get_type(key_raw)

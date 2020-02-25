@@ -103,6 +103,33 @@ Supported types are:
 
 (*) Default data type and can be omited.
 
+KEYS set as in operating system for `EnvironBucket` use:
+
+``` shell
+HOMOLOG__HOSTNAME="192.168.0.200"
+HOMOLOG__MAX_RESULTS=200
+HOMOLOG__DEBUG=false
+HOMOLOG__HEALTH_CHECK='{"DISK_USAGE_MAX":80,"MEMORY_MIN":200}'
+```
+
+**Python** code configured to properly handle with these KEYS:
+
+``` python
+from tomatic import Tomaic, fix
+from tomatic.buckets import EnvironBucket
+
+t = Tomatic(EnvironBucket, static_profile="HOMOLOG")
+...
+HOSTNAME = t.HOSTNAME__str__ or "localhost"
+MAX_RESULTS = t.MAX_RESULTS__int__ or 10
+DEBUG = t.fix(l.DEBUG__bool__, False)
+
+HEALTH_CHECK = t.HEALTH_CHECK__json__ or {
+    "DISK_USAGE_MAX": 90,
+    "MEMORY_MIN": 100,
+}
+```
+
 #### Handling with empty values
 
 In **Python** a `False or True` comparison results `True`, and the same
