@@ -5,7 +5,7 @@
 
 Requirements
 --
-Requires at least **Python 3.5** due the use of type hints ([PEP484](https://www.python.org/dev/peps/pep-0484/)).
+Requires at least **Python 3.6** due use of type hints ([PEP484](https://www.python.org/dev/peps/pep-0484/)).
 
 Installing
 --
@@ -57,7 +57,7 @@ DATABASES = {
 
 There are so many ways to handle with this like you can keep two or more copies of `settings.py`, setup two databases on it, use an environment variables etc... But in all cases you will need to stop development to it.
 
-**Solving the problem with Tomatic...**
+**Solving the problem with Tomatic**
 
 By the way, this example is using `EnvironBucket` , and it works using environment variables to store KEY/VALUE pairs.
 
@@ -99,7 +99,7 @@ QA__DB_PORT='9876'
 export QA__DB_NAME QA__DB_USER QA__DB_PASSWD QA__DB_HOST QA__DB_PORT
 ```
 
-**Runing your Django application **
+**Runing your Django application**
 
 Now, to run your application for local development just run:
 
@@ -160,12 +160,12 @@ Tips
     
 	Few examples:
 
-    | Environment variable | Data type forced | Result |
-    | --------------------- | ------------------ | ------ |
-    | `DEFAULT__DEBUG='true`' | `t.DEBUG__bool__`  | `True` |
-    | `DEFAULT__LOWEST_PRICE='49.90'` | `t.LOWEST_PRICE__float__` | `49.9` |
-    | `DEFAULT__PAGE_LIMIT='10'` | `t.PAGE_LIMIT__int__ `| `10` |
-    | `DEFAULT__ALLOWED_HOSTS='["127.0.0.1", "192.168."]'` | `t.ALLOWED_HOSTS__json__` | `["127.0.0.1", "192.168.",]` |
+  | Environment variable | Data type forced | Result |
+  | --------------------- | ------------------ | ------ |
+  | `DEFAULT__DEBUG='true`' | `t.DEBUG__bool__`  | `True` |
+  | `DEFAULT__LOWEST_PRICE='49.90'` | `t.LOWEST_PRICE__float__` | `49.9` |
+  | `DEFAULT__PAGE_LIMIT='10'` | `t.PAGE_LIMIT__int__ `| `10` |
+  | `DEFAULT__ALLOWED_HOSTS='["127.0.0.1", "192.168."]'` | `t.ALLOWED_HOSTS__json__` | `["127.0.0.1", "192.168.",]` |
 
 ---
 And for more details, please, read the [full documentation](https://plainspooky.github.io/tomatic/index.html).
