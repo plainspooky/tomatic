@@ -1,9 +1,10 @@
 from distutils.core import setup
+from tomatic import __version__ as version
 
 setup(
     name="tomatic",
     packages=["tomatic"],
-    version="0.1.1",
+    version=version,
     license="gpl-3.0",
     description="Tomatic is a library that helps to enable automatic configuration for python programas.",
     long_description=open("README.rst").read(),
