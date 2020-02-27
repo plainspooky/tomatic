@@ -31,6 +31,6 @@ name: python-3.8
 
 steps:
 - name: test
-  image: python:3.899
+  image: python:3.8
   commands:
   - VIRTUAL_ENV=1 utils/run_tests.sh
