@@ -7,8 +7,6 @@ steps:
   image: python:3.5
   commands:
   - VIRTUAL_ENV=1 utils/run_tests.sh
-- name: build
-  image: python setup.py
 ---
 kind: pipeline
 name: python-3.6
@@ -18,8 +16,6 @@ steps:
   image: python:3.6
   commands:
   - VIRTUAL_ENV=1 utils/run_tests.sh
-- name: build
-  image: python setup.py
 ---
 kind: pipeline
 name: python-3.7
@@ -29,8 +25,6 @@ steps:
   image: python:3.7
   commands:
   - VIRTUAL_ENV=1 utils/run_tests.sh
-- name: build
-  image: python setup.py
 ---
 kind: pipeline
 name: python-3.8
