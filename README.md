@@ -1,5 +1,7 @@
 ![Tomatic logo](tomatic_logo.png)
 
+[![Build Status](https://cloud.drone.io/api/badges/plainspooky/tomatic/status.svg)](https://cloud.drone.io/plainspooky/tomatic)
+
 **Tomatic** is a library that helps add automatic setup capabilities on **Python** programs and avoids that configuration files became bloated with unnecessary lines of code. It has originally designed to be used in [Django](https://www.djangoproject.com/) projects working directly in `settings.py` but can be used with any other Python program.
 
 
