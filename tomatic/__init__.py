@@ -150,3 +150,6 @@ default value use only when`None` is returned.
 """
 from .core import Tomatic
 from .tools import fix
+
+__version__ = "0.2"
+
