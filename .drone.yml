@@ -1,14 +1,5 @@
 ---
 kind: pipeline
-name: python-3.5
-
-steps:
-- name: test
-  image: python:3.5
-  commands:
-  - VIRTUAL_ENV=1 utils/run_tests.sh
----
-kind: pipeline
 name: python-3.6
 
 steps:
