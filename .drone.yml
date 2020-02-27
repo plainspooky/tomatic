@@ -5,4 +5,4 @@ steps:
 - name: test
   image: python
   commands:
-  - utils/run_tests.sh
+  - VIRTUAL_ENV=1 utils/run_tests.sh
