@@ -1,13 +1,11 @@
 ![Tomatic logo](tomatic_logo.png)
 
-[![Build Status](https://cloud.drone.io/api/badges/plainspooky/tomatic/status.svg)](https://cloud.drone.io/plainspooky/tomatic)
-
 **Tomatic** is a library that helps add automatic setup capabilities on **Python** programs and avoids that configuration files became bloated with unnecessary lines of code. It has originally designed to be used in [Django](https://www.djangoproject.com/) projects working directly in `settings.py` but can be used with any other Python program.
 
 
 Requirements
 --
-Requires at least **Python 3.5** due the use of type hints ([PEP484](https://www.python.org/dev/peps/pep-0484/)).
+Requires at least **Python 3.6** due use of type hints ([PEP484](https://www.python.org/dev/peps/pep-0484/)).
 
 Installing
 --
