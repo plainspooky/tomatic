@@ -2,6 +2,32 @@
 
 **Tomatic** is a library that helps add automatic setup capabilities on **Python** programs and avoids that configuration files became bloated with unnecessary lines of code. It has originally designed to be used in [Django](https://www.djangoproject.com/) projects working directly in `settings.py` but can be used with any other Python program.
 
+TL;DR
+--
+You've a program and need to use values to setup something but without add them in source code, so you can use **Tomatic** to retrieve these values from environment variables and even forcing a specific data type.
+
+For example:
+
+``` python
+from tomatic import Tomatic, fix
+from tomatic.buckets import EnvironBucket
+
+t = Tomatic(
+    EnvironBucket, static_profile="TLDR"
+)
+
+print("value = ", t.VALUE__float__)
+```
+
+``` console
+$ TLDR__VALUE=3 python tldr.py
+value = 3.0
+```
+
+Supported data types are boolean, floating point, integer and JSON (use it for dictionaries and lists) and strings.
+
+---
+
 
 Requirements
 --
@@ -160,12 +186,12 @@ Tips
     
 	Few examples:
 
-  | Environment variable | Data type forced | Result |
-  | --------------------- | ------------------ | ------ |
-  | `DEFAULT__DEBUG='true`' | `t.DEBUG__bool__`  | `True` |
-  | `DEFAULT__LOWEST_PRICE='49.90'` | `t.LOWEST_PRICE__float__` | `49.9` |
-  | `DEFAULT__PAGE_LIMIT='10'` | `t.PAGE_LIMIT__int__ `| `10` |
-  | `DEFAULT__ALLOWED_HOSTS='["127.0.0.1", "192.168."]'` | `t.ALLOWED_HOSTS__json__` | `["127.0.0.1", "192.168.",]` |
+| Environment variable | Data type forced | Result |
+| --------------------- | ------------------ | ------ |
+| `DEFAULT__DEBUG='true`' | `t.DEBUG__bool__`  | `True` |
+| `DEFAULT__LOWEST_PRICE='49.90'` | `t.LOWEST_PRICE__float__` | `49.9` |
+| `DEFAULT__PAGE_LIMIT='10'` | `t.PAGE_LIMIT__int__ `| `10` |
+| `DEFAULT__ALLOWED_HOSTS='["127.0.0.1", "192.168."]'` | `t.ALLOWED_HOSTS__json__` | `["127.0.0.1", "192.168.",]` |
 
 ---
 And for more details, please, read the [full documentation](https://plainspooky.github.io/tomatic/index.html).
