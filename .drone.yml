@@ -6,7 +6,7 @@ steps:
 - name: test
   image: python:3.6
   commands:
-  - VIRTUAL_ENV=1 MODULE=tomatic utils/run_tests.sh
+  - VIRTUAL_ENV=1 MODULE=tomatic bash utils/run_tests.sh
 ---
 kind: pipeline
 name: python-3.7
@@ -24,4 +24,4 @@ steps:
 - name: test
   image: python:3.8
   commands:
-  - VIRTUAL_ENV=1 MODULE=tomatic utils/run_tests.sh
+  - VIRTUAL_ENV=1 MODULE=tomatic bash utils/run_tests.sh
