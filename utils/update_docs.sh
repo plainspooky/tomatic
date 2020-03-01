@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 [[ ! -n $VIRTUAL_ENV  ]] && echo "not in a virtual environment!" && exit 1
+[[ ! -n $MODULE ]] && echo "Set 'MODULE' variable first!" && exit 1
 
-MODULE="tomatic"
 PROGRAM="pdoc3"
-REQUIREMENT="pdoc3"
+REQUIREMENTS="requirements-${PROGRAM}.txt"
 
 ROOT="$(dirname "$(readlink -f "$0")")"
 
@@ -12,9 +12,9 @@ ROOT="$(dirname "$(readlink -f "$0")")"
 REPORT_DIR="./reports"
 mkdir -p "$REPORT_DIR/$MODULE"
 
-TEMPLATE_DIR="$ROOT/template"
+TEMPLATE_DIR="$ROOT/template.d"
 
-[[ ! -f "$REPORT_DIR/$MODULE/tomatic.png" ]] && cp "$TEMPLATE_DIR/tomatic.png" "$REPORT_DIR/$MODULE"
+cp "$TEMPLATE_DIR/*.{jpg,png}" $REPORT_DIR/$MODULE"
 
 ARGS="--force --config show_source_code=False --html --template-dir $TEMPLATE_DIR --output-dir $REPORT_DIR"
 
