@@ -14,7 +14,7 @@ mkdir -p "$REPORT_DIR/$MODULE"
 
 TEMPLATE_DIR="$ROOT/template.d"
 
-cp "$TEMPLATE_DIR/*.{jpg,png}" $REPORT_DIR/$MODULE"
+cp "$TEMPLATE_DIR/*.{jpg,png}" "$REPORT_DIR/$MODULE"
 
 ARGS="--force --config show_source_code=False --html --template-dir $TEMPLATE_DIR --output-dir $REPORT_DIR"
 
