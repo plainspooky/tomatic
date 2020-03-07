@@ -13,18 +13,21 @@ run_steps(){
     #
     local step_dir="$ROOT_DIR/${1}"
 
-    [[ ! -d $step_dir ]] && return 0
+    [[ ! -d "$step_dir" ]] && return 0
 
     for step in $step_dir/*; do
-        [[ -x $step ]] && source $step
+        # is it an executable?
+        if [[ -x "$step" ]]; then
+            # ends with ".env" makes run in same shell!
+            [[ "${step##*.}" == "env" ]] && source "$step" || "$step"
+        fi
     done
 }
 
-[[ ! $( which $PROGRAM ) ]] && pip3 install -r $REQUIREMENTS
+[[ ! $( which "$PROGRAM" ) ]] && pip3 install -r "$REQUIREMENTS"
 
 ARGS="-vv"
 TEST_FILES="${MODULE}/tests.py"
-
 
 [[ $COV ]] && COVERAGE="--cov=${MODULE} --cov-report=html" || COVERAGE="--cov=${MODULE}"
 
