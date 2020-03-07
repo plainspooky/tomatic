@@ -11,12 +11,12 @@ run_steps(){
     #
     #   run each file with execution attribute in a directory
     #
-    local step_dir="$ROOT_DIR/${1}/*"
+    local step_dir="$ROOT_DIR/${1}"
 
     [[ ! -d $step_dir ]] && return 0
 
-    for step in $step_dir; do
-        [[ -x $step ]] && $step
+    for step in $step_dir/*; do
+        [[ -x $step ]] && source $step
     done
 }
 
@@ -24,6 +24,7 @@ run_steps(){
 
 ARGS="-vv"
 TEST_FILES="${MODULE}/tests.py"
+
 
 [[ $COV ]] && COVERAGE="--cov=${MODULE} --cov-report=html" || COVERAGE="--cov=${MODULE}"
 

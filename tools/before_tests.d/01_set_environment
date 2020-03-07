@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+echo "Set variables (for EnvironBucket)"
+
+export ENVIRON__TEST='test'
+export ENVIRON__BOOL='True'
+export ENVIRON__FLOAT='3.14159'
+export ENVIRON__INT='10'
+export ENVIRON__JSON='{}'
+export ENVIRON__STR='abcdef'
+
+env | grep "ENVIRON__"

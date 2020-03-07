@@ -20,12 +20,9 @@ SampleDataType = Tuple[SampleType, ...]
 DUMMY_PROFILE = "DUMMY"
 ENVIRON_PROFILE = "ENVIRON"
 
+# reflect from environment list on 'before_tests.d'
 BUCKET_ENVIRON_LIST: EnvironDataType = (
     ("TEST", "test"),
-    ("BOOL", True),
-    ("FLOAT", 3.14159),
-    ("INT", 10),
-    ("JSON", {}),
     ("STR", "abcdef"),
 )
 
@@ -50,17 +47,6 @@ def catch_value_error(function_obj: Callable) -> Callable:
         assert result
 
     return catch_exception
-
-
-@pytest.fixture(scope="module")
-def inject_env_variables(request) -> None:
-    """
-    Fixture to set OS environment variables.
-    """
-    for key, value in BUCKET_ENVIRON_LIST:
-        environ[
-            "{profile}__{key}".format(profile=ENVIRON_PROFILE, key=key)
-        ] = str(value)
 
 
 @pytest.fixture(scope="module")
@@ -133,7 +119,7 @@ class TestTomaticBuckets:
         # does returns the correct instance?
         assert isinstance(env, EnvironBucket)
 
-    def test_environ_bucket_get_raw_value(self, inject_env_variables) -> None:
+    def test_environ_bucket_get_raw_value(self) -> None:
         """
         Test if `EnvironBucket` gets a raw value.
         """
@@ -143,9 +129,7 @@ class TestTomaticBuckets:
         # does returns the correct value?
         assert env.get(key) == value
 
-    def test_environ_bucket_get_value_with_cast(
-        self, inject_env_variables
-    ) -> None:
+    def test_environ_bucket_get_value_with_cast(self) -> None:
         """
         Test if `EnvironBucket` gets a value using type casting.
         """
