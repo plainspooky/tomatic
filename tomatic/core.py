@@ -2,7 +2,7 @@
 Core class and functions.
 """
 from os import environ
-from typing import Any, Callable, Optional
+from typing import Any, Callable
 
 from .buckets import BaseBucket
 from .datatypes import RaiseIfNoneType
