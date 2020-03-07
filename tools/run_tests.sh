@@ -2,11 +2,16 @@
 [[ ! -n $VIRTUAL_ENV  ]] && echo "not in a virtual environment!" && exit 1
 [[ ! -n $MODULE ]] && echo "Set 'MODULE' variable first!" && exit 1
 
+ROOT_DIR="$(dirname "$(readlink -f "$0")")"
+
+PROGRAM="pytest"
+REQUIREMENTS="requirements-${PROGRAM}.txt"
+
 run_steps(){
     #
     #   run each file with execution attribute in a directory
     #
-    local step_dir="utils/${1}/*"
+    local step_dir="$ROOT_DIR/${1}/*"
 
     [[ ! -d $step_dir ]] && return 0
 
@@ -14,9 +19,6 @@ run_steps(){
         [[ -x $step ]] && $step
     done
 }
-
-PROGRAM="pytest"
-REQUIREMENTS="requirements-${PROGRAM}.txt"
 
 [[ ! $( which $PROGRAM ) ]] && pip3 install -r $REQUIREMENTS
 

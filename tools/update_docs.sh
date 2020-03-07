@@ -5,14 +5,14 @@
 PROGRAM="pdoc3"
 REQUIREMENTS="requirements-${PROGRAM}.txt"
 
-ROOT="$(dirname "$(readlink -f "$0")")"
+ROOT_DIR="$(dirname "$(readlink -f "$0")")"
 
 [[ ! $( which $PROGRAM ) ]] && pip3 install $PROGRAM
 
 REPORT_DIR="./reports"
 mkdir -p "$REPORT_DIR/$MODULE"
 
-TEMPLATE_DIR="$ROOT/template.d"
+TEMPLATE_DIR="$ROOT_DIR/template.d"
 
 cp "$TEMPLATE_DIR/*.{jpg,png}" "$REPORT_DIR/$MODULE"
 
