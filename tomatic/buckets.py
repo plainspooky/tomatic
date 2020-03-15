@@ -39,7 +39,7 @@ class DummyBucket(BaseBucket):
 class EnvironBucket(BaseBucket):
     """
     Uses Operating System environment variables to store KEY/VALUE
-    pairs. To set a KEY create an environment variable using the
+    pairs. To set a KEY, create an environment variable using the
     following syntax:
 
     ```
@@ -50,10 +50,10 @@ class EnvironBucket(BaseBucket):
 
     * `PROFILE` is a name that groups KEYS;
     * `KEY` is a name to identify a specific VALUE and
-    * `VALUE` is a value itself (dont't care about data types here,
-      for **Python** it's always a string).
+    * `VALUE` is a value itself (don't care about data types here,
+      for **Python** it's always string).
 
-    Don't forget that a combinatiom of `profile` and `key` must be
+    Don't forget that a combination of `PROFILE` and `KEY` must be
     unique!
 
     ## Example

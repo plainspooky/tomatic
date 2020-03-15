@@ -14,7 +14,9 @@ mkdir -p "$REPORT_DIR/$MODULE"
 
 TEMPLATE_DIR="$ROOT_DIR/template.d"
 
-cp "$TEMPLATE_DIR/*.{jpg,png}" "$REPORT_DIR/$MODULE"
+for img in "$TEMPLATE_DIR/*.png"; do
+    cp $img "$REPORT_DIR/$MODULE"
+done
 
 ARGS="--force --config show_source_code=False --html --template-dir $TEMPLATE_DIR --output-dir $REPORT_DIR"
 
