@@ -2,29 +2,20 @@
 Tools classes and routines.
 """
 import json
-from typing import Any, Union
+from typing import Any, List, Union
 
 from .datatypes import GotType, ValueType, ValidValueType, ValueRawType
 
 from .datatypes import (
     TomaticTypeBool,
-    TomaticTypelDict,
-    TomaticTypelFloat,
-    TomaticTypelInt,
+    TomaticTypeDict,
+    TomaticTypeFloat,
+    TomaticTypeInt,
     TomaticTypeList,
-    TomaticTypelStr,
+    TomaticTypeStr,
 )
 
 SEP = "__"
-
-TYPES = (
-    "bool",
-    "dict",
-    "float",
-    "int",
-    "list",
-    "str",
-)
 
 
 class TomaticTypeCast:
@@ -41,31 +32,13 @@ class TomaticTypeCast:
         """
         self.__value: str = ""
 
-        if isinstance(value_raw, bytearray):
+        if isinstance(value_raw, bytes):
             # if directly converted by str(), bytearray got an 'b'
             self.__value = value_raw.decode()
 
         elif value_raw is not None:
             # except by NoneType, use str()
             self.__value = str(value_raw)
-
-    def __convert_from_json(
-        self, expected_datatype: type
-    ) -> Union[None, dict, list]:
-        """
-        Convert `__value` from JSON but only return this value if matching
-        with expected datatype as `expected_datatype`, otherwise return
-        expected datatype empty.
-        """
-        try:
-            value = json.loads(self.__value)
-
-            return (
-                value if isinstance(value, expected_datatype) else self.default
-            )
-
-        except json.decoder.JSONDecodeError:
-            return self.default
 
     @property
     def as_bool(self) -> TomaticTypeBool:
@@ -80,14 +53,20 @@ class TomaticTypeCast:
         return self.default
 
     @property
-    def as_dict(self) -> TomaticTypelDict:
+    def as_dict(self) -> TomaticTypeDict:
         """
-        Convert `__value` to dictionary using JSON module.
+        Convert `__value` to dictionary using JSON module, if convert
+        value isn't a list, `self.default` is returned.
         """
-        return self.__convert_from_json(dict)
+        try:
+            value: Any = json.loads(self.__value)
+            return value if isinstance(value, dict) else self.default
+
+        except json.decoder.JSONDecodeError:
+            return self.default
 
     @property
-    def as_float(self) -> TomaticTypelFloat:
+    def as_float(self) -> TomaticTypeFloat:
         """
         Convert `__value` to floating point number.
         """
@@ -98,7 +77,7 @@ class TomaticTypeCast:
             return self.default
 
     @property
-    def as_int(self) -> TomaticTypelInt:
+    def as_int(self) -> TomaticTypeInt:
         """
         Convert `__value` to integer number.
         """
@@ -111,19 +90,32 @@ class TomaticTypeCast:
     @property
     def as_list(self) -> TomaticTypeList:
         """
-        Convert `__value` to dictionary using JSON module.
+        Convert `__value` to list using JSON module, if convert value
+        isn't a list, `self.default` is returned.
         """
-        return self.__convert_from_json(list)
+        try:
+            value: Any = json.loads(self.__value)
+            return value if isinstance(value, list) else self.default
+
+        except json.decoder.JSONDecodeError:
+            return self.default
 
     @property
-    def as_str(self) -> TomaticTypelStr:
+    def as_str(self) -> TomaticTypeStr:
         """
         Return `__value` as string.
         """
         return self.__value if self.__value else self.default
 
+    @classmethod
+    def types(cls) -> List[str]:
+        """
+        (Class Method) Return all supported data types from this class.
+        """
+        return [item[3:] for item in dir(cls) if item[0:3] == "as_"]
 
-def fix(value: Any, default_value: Any) -> Any:
+
+def fix(value: ValueType, default_value: ValidValueType) -> ValidValueType:
     """
     Force a correct behavior for boolean and other empty values, get
     retrieved value as `value` and default value as `default_value`.
@@ -147,7 +139,7 @@ def get_type(key_raw: str) -> GotType:
         # split key from bucket and datatype
         key, datatype, __ = key_raw.split(SEP)
         # and return key and its datatype (if supported)
-        return key, datatype if datatype in TYPES else None
+        return key, datatype if datatype in TomaticTypeCast.types() else None
 
     key = key_raw
 
@@ -158,8 +150,8 @@ def type_cast(datatype: str, value_raw: ValueRawType) -> ValidValueType:
     """
     Convert a given string to a specific data type, receive type to
     use as `datatype` and value to convert as `value_raw`. Supported
-    data types are hardcoded here but there are on `TYPES` constant
-    as well.
+    data types are hardcoded but you can retrieve them
+    fromTomaticTypeCast.types() class method as well.
 
     There are the following data types supported by buckets:
 

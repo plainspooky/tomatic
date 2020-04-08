@@ -8,6 +8,7 @@ import pytest
 
 from . import Tomatic, fix
 from .buckets import DummyBucket, EnvironBucket, type_cast
+from .tools import TomaticTypeCast
 
 # data types used by test routines
 EnvironType = Tuple[str, Any]
@@ -71,13 +72,13 @@ def invalid_datatype(request) -> SampleDataType:
     Fixture to return a set of invalid datatypes.
     """
     return (
-        # ("bool", "f", None),
-        # ("bool", "t r u e", None),
-        # ("dict", "{'a':2}", None),
-        # ("float", "abc", None),
-        # ("int", "3.14159", None),
-        # ("list", "abc", None),
-        # ("????", "abc", "abc"),
+        ("bool", "f", None),
+        ("bool", "t r u e", None),
+        ("dict", "{'a':2}", None),
+        ("float", "abc", None),
+        ("int", "3.14159", None),
+        ("list", "abc", None),
+        ("????", "abc", "abc"),
     )
 
 
@@ -86,7 +87,7 @@ class TestTomaticBuckets:
     Class for test bucket classes and functions.
     """
 
-    def test_type_cast(
+    def test_if_type_cast_handle_supported_data_types(
         self, valid_datatype: SampleDataType, invalid_datatype: SampleDataType
     ) -> None:
         """
@@ -101,7 +102,7 @@ class TestTomaticBuckets:
                 # does 'value' convert to data type 'datatype' is 'expect'?
                 assert (type_cast(datatype, value)) == expected
 
-    def test_dummy_bucket_instance(self) -> None:
+    def test_dummy_bucket_new_instance(self) -> None:
         """
         Test `DummyBucket` instance creation.
         """
@@ -111,7 +112,7 @@ class TestTomaticBuckets:
         assert isinstance(dummy, DummyBucket)
         assert dummy.get("KEY") is None
 
-    def test_environ_bucket_instance(self) -> None:
+    def test_environ_bucket_new_instance(self) -> None:
         """
         Test `EnvironBucket` instance creation.
         """
@@ -120,7 +121,7 @@ class TestTomaticBuckets:
         # does returns the correct instance?
         assert isinstance(env, EnvironBucket)
 
-    def test_environ_bucket_get_raw_value(self) -> None:
+    def test_if_environ_bucket_get_raw_value(self) -> None:
         """
         Test if `EnvironBucket` gets a raw value.
         """
@@ -130,7 +131,7 @@ class TestTomaticBuckets:
         # does returns the correct value?
         assert env.get(key) == value
 
-    def test_environ_bucket_get_value_with_cast(self) -> None:
+    def test_if_environ_bucket_get_value_with_cast(self) -> None:
         """
         Test if `EnvironBucket` gets a value using type casting.
         """
@@ -149,20 +150,20 @@ class TestTomaticCore:
     """
 
     @catch_value_error
-    def test_tomatic_fail_new_instance(self) -> None:
+    def test_tomatic_fail_if_instance_are_missing_argments(self) -> None:
         """
         Test fail creating a new instance without set a profile.
         """
         Tomatic(DummyBucket)
 
     @catch_value_error
-    def test_tomatic_fail_wrong_bucket_subclass(self) -> None:
+    def test_tomatic_fail_with_wrong_bucket_subclass(self) -> None:
         """
         Test fail creating with a not BaseBucket subclass.
         """
         Tomatic(int, static_profile="test")
 
-    def test_tomatic_dummy_new_instance(self) -> None:
+    def test_tomatic_with_dummy_new_instance(self) -> None:
         """
         Test a new instance creation using dummy bucket.
         """
@@ -170,7 +171,7 @@ class TestTomaticCore:
 
         assert isinstance(dummy, Tomatic)
 
-    def test_tomatic_environ_new_instance(self) -> None:
+    def test_tomatic_with_environ_new_instance(self) -> None:
         """
         Test a new instance creation using environ bucket.
         """
@@ -180,7 +181,7 @@ class TestTomaticCore:
         assert isinstance(env, Tomatic)
 
     @catch_value_error
-    def test_tomatic_fail_exception(self) -> None:
+    def test_if_tomatic_fail_in_case_of_exception(self) -> None:
         """
         Test if a custom exception given is an Exception subclass.
         """
@@ -191,7 +192,7 @@ class TestTomaticCore:
         )
         Tomatic(DummyBucket, static_profile=DUMMY_PROFILE, raise_if_none=int)
 
-    def test_tomatic_get_key(self) -> None:
+    def test_if_tomatic_get_a_key(self) -> None:
         """
         Test if Tomatic class return a value for a key.
         """
@@ -200,7 +201,7 @@ class TestTomaticCore:
         assert dummy.get_a_value is None
 
     @catch_value_error
-    def test_tomatic_get_key_with_expeption(self) -> None:
+    def test_if_tomatic_get_key_with_expeption(self) -> None:
         """
         Test if `None` value raises an expected exceptiopn.
         """
@@ -210,9 +211,95 @@ class TestTomaticCore:
 
         dummy.get_a_value
 
-    def test_tomatic_use_fix_for_empty_values(self) -> None:
+    def test_if_tomatic_use_fix_for_empty_values(self) -> None:
         """
         Test if '.fix()' method returns correct values for empty results.
         """
         assert fix(False, True) is False
         assert fix(None, True) is True
+
+
+class TestTomaticTypeCast:
+    """
+    Class for test TomaticTypeCast methods.
+    """
+
+    def test_if_class_return_its_types(self) -> None:
+        """
+        Test if methodclass types() returns a populated list.
+        """
+        types = TomaticTypeCast.types()
+
+        assert(types and isinstance(types, list))
+
+    def test_if_clas_cast_from_string(self) -> None:
+        """
+        Test if TomaticTypeCast convet a given value as string.
+        """
+        source = "abcdef"
+        value = TomaticTypeCast(source)
+
+        assert value.as_str == source
+
+    def test_if_clas_cast_from_bytes(self) -> None:
+        """
+        Test if TomaticTypeCast convet a given value as Bytes.
+        """
+        source = b"ABC"
+        value = TomaticTypeCast(source)
+
+        assert value.as_str == source.decode()
+
+    def test_if_clas_cast_return_bool(self) -> None:
+        """
+        Test if TomaticTypeCast return value as bool.
+        """
+        source = "True"
+        value = TomaticTypeCast(source)
+
+        assert isinstance(value.as_bool, bool)
+
+    def test_if_clas_cast_return_dict(self) -> None:
+        """
+        Test if TomaticTypeCast return value as dict.
+        """
+        source = "{}"
+        value = TomaticTypeCast(source)
+
+        assert isinstance(value.as_dict, dict)
+
+    def test_if_clas_cast_return_float(self) -> None:
+        """
+        Test if TomaticTypeCast return alue as float.
+        """
+        source = "3.14159"
+        value = TomaticTypeCast(source)
+
+        assert isinstance(value.as_float, float)
+
+    def test_if_clas_cast_return_int(self) -> None:
+        """
+        Test if TomaticTypeCast return alue as int.
+        """
+        source = "32768"
+        value = TomaticTypeCast(source)
+
+        assert isinstance(value.as_int, int)
+
+    def test_if_clas_cast_return_list(self) -> None:
+        """
+        Test if TomaticTypeCast return alue as list.
+        """
+        source = "[]"
+        value = TomaticTypeCast(source)
+
+        assert isinstance(value.as_list, list)
+
+    def test_if_clas_cast_return_string(self) -> None:
+        """
+        Test if TomaticTypeCast return value as string.
+        """
+        source = "abcdefghijklmnopqrstuvwxyz"
+        value = TomaticTypeCast(source)
+
+        assert isinstance(value.as_str, str)
