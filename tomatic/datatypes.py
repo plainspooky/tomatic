@@ -16,19 +16,24 @@ GotType = Tuple[str, Optional[str]]
 
 RaiseIfNoneType = Optional[type]
 
-ValueRawType = Union[None, str, bytearray]
+TomaticTypeBool = Optional[bool]
+TomaticTypeInt = Optional[SupportsInt]
+TomaticTypeFloat = Optional[SupportsFloat]
+TomaticTypeList = Optional[List[Any]]
+TomaticTypeDict = Optional[Dict[str, Any]]
+TomaticTypeStr = Optional[str]
 
-ValidValueType = Union[
-    None, bool, Dict, List, str, SupportsFloat, SupportsInt
-]
+ValueRawType = Union[None, str, bytes]
+
+ValidValueType = Union[None, bool, Dict, List, str, SupportsFloat, SupportsInt]
 
 ValueType = Union[
-    None, bool, bytes, bytearray, Dict[str, Any], List[Any], str, SupportsFloat, SupportsInt
+    None,
+    bool,
+    bytes,
+    Dict[str, Any],
+    List[Any],
+    str,
+    SupportsFloat,
+    SupportsInt,
 ]
-
-TomaticTypeBool = Optional[bool]
-TomaticTypelInt = Optional[SupportsInt]
-TomaticTypelFloat = Optional[SupportsFloat]
-TomaticTypeList = Optional[List[Any]]
-TomaticTypelDict = Optional[Dict[str, Any]]
-TomaticTypelStr = Optional[str]
