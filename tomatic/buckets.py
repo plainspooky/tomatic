@@ -5,7 +5,7 @@ from os import environ
 from typing import Any
 
 from .datatypes import ValueType, ValueRawType
-from .tools import SEP, TYPES, get_type, type_cast
+from .tools import SEP, get_type, type_cast
 
 
 class BaseBucket:

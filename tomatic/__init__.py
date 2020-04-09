@@ -1,17 +1,17 @@
 """
 **Tomatic** is a library that helps add automatic setup capabilities
 on **Python** programs and avoids that configuration files became
-bloated with unnecessary lines of code. It has originally designed to
+bloated with unnecessary lines of code. It was originally designed to
 be used in [Django](https://www.djangoproject.com/) projects working
-directly in `settings.py` but can be used with any other **Python**
+directly at `settings.py` but can be used with any other **Python**
 program.
 
-Buckets are simple interfaces for KEY/VALUE repositories.
+Helps to implement separation between settings and code -- see more at
+[The Twelve Factors - Config](https://12factor.net/config).
 
-## Buckets
-
-Buckets are simple interfaces for KEY/VALUE repositories that only
-handle with two specific tasks:
+Interface between **Tomatic** and KEY/VALUE repository is implemented
+by a software layer called _bucket_. _Buckets_ are simple interfaces
+for KEY/VALUE repositories that only handle with two specific tasks:
 
 1. Where KEY/VALUE pairs are stored.
 2. How to retrieve them.
@@ -97,9 +97,10 @@ ITEMS_PER_PAGE = t.ITEMS_PER_PAGE__int__ or 15
 There are currently supported types:
 
 * Boolean (`__bool__`)
+* Dictionary (`__dict__`)
 * Floating Point (`__float__`)
 * Integer (`__int__`)
-* JSON (`__json__`)
+* List (`__list__`)
 * String* (`__str__`).
 
 (*) Default data type and can be omited.
@@ -127,7 +128,7 @@ HOSTNAME = t.HOSTNAME__str__ or "localhost"
 MAX_RESULTS = t.MAX_RESULTS__int__ or 10
 DEBUG = t.fix(l.DEBUG__bool__, False)
 
-HEALTH_CHECK = t.HEALTH_CHECK__json__ or {
+HEALTH_CHECK = t.HEALTH_CHECK__dict__ or {
     "DISK_USAGE_MAX": 90,
     "MEMORY_MIN": 100,
 }
@@ -152,4 +153,3 @@ from .core import Tomatic
 from .tools import fix
 
 __version__ = "0.2"
-
