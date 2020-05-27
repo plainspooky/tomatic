@@ -2,10 +2,10 @@
 Bucket classes and routines.
 """
 from os import environ
-from typing import Any
+from typing import Any, Dict
 
-from .datatypes import ValueType, ValueRawType
-from .tools import SEP, get_type, type_cast
+from .datatypes import BucketArgsType, ValueRawType, ValueType
+from .helpers import SEP, get_type, type_cast
 
 
 class BaseBucket:
@@ -27,7 +27,7 @@ class DummyBucket(BaseBucket):
     KEY you try to get a VALUE.
     """
 
-    def __init__(self, profile: str, args: dict = {}) -> None:
+    def __init__(self, profile: str, args: BucketArgsType = {}) -> None:
         """
         Initialize class using profile name as `profile` (but it's
         not used).
@@ -71,7 +71,7 @@ class EnvironBucket(BaseBucket):
     `PRODUCTION`.
     """
 
-    def __init__(self, profile: str, args: dict = {}) -> None:
+    def __init__(self, profile: str, args: BucketArgsType = {}) -> None:
         """
         Initialize class uising profile name as `profile`.
         """

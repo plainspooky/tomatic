@@ -5,7 +5,7 @@ from os import environ
 from typing import Any, Callable
 
 from .buckets import BaseBucket
-from .datatypes import RaiseIfNoneType
+from .datatypes import BucketArgsType, RaiseIfNoneType
 
 
 class Tomatic:
@@ -19,7 +19,7 @@ class Tomatic:
         static_profile: str = "",
         env_profile: str = "",
         raise_if_none: RaiseIfNoneType = None,
-        bucket_args: dict = {},
+        bucket_args: BucketArgsType = {},
     ) -> None:
         """
         Initialize class receiving bucket object as `bucket` and profile
@@ -44,7 +44,7 @@ class Tomatic:
                     self.__exception = raise_if_none
                 else:
                     raise ValueError(
-                        "`raise_if_none` must be subclass of 'Exception'."
+                        "`raise_if_none` must be subclass of 'Exception'!"
                     )
         else:
             raise ValueError("A profile hasn't defined!")
