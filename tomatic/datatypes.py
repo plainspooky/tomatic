@@ -6,11 +6,13 @@ from typing import (
     Dict,
     List,
     Optional,
-    Tuple,
-    Union,
     SupportsFloat,
     SupportsInt,
+    Tuple,
+    Union,
 )
+
+BucketArgsType = Dict[str, Any]
 
 GotType = Tuple[str, Optional[str]]
 
