@@ -8,7 +8,7 @@ import pytest
 
 from . import Tomatic, fix
 from .buckets import DummyBucket, EnvironBucket, type_cast
-from .tools import TomaticTypeCast
+from .helpers import TomaticTypeCast
 
 # data types used by test routines
 EnvironType = Tuple[str, Any]
@@ -230,7 +230,7 @@ class TestTomaticTypeCast:
         """
         types = TomaticTypeCast.types()
 
-        assert(types and isinstance(types, list))
+        assert types and isinstance(types, list)
 
     def test_if_clas_cast_from_string(self) -> None:
         """
