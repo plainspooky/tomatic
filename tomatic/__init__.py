@@ -150,6 +150,6 @@ This forces VALUE that came from **Tomatic** use even when it's empty and
 default value use only when`None` is returned.
 """
 from .core import Tomatic
-from .tools import fix
+from .helpers import fix
 
-__version__ = "0.2"
+__version__ = "0.3-DEVELOPMENT"
