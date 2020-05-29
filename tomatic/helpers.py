@@ -19,8 +19,6 @@ from .datatypes import (
 
 SEP = "__"
 
-# tempo
-from devtools import debug
 
 class TomaticTypeCast:
     """
@@ -35,9 +33,6 @@ class TomaticTypeCast:
         Initialize class receiving source value as `value`.
         """
         self.__value: str = ""
-
-        asasa
-        debug(123, value_raw, type(value_raw))
 
         if isinstance(value_raw, bytes):
             # to avoid the 'b' when bytearray is converted by string.
@@ -147,6 +142,7 @@ def get_type(key_raw: str) -> GotType:
     To avoid mistakes handling with boolean or even empty values,
     use `Tomatic.fix()` function.
     """
+
     # check if key name finishes with separator
     if key_raw[-2:] == SEP:
         # split key from bucket and datatype
@@ -154,9 +150,7 @@ def get_type(key_raw: str) -> GotType:
         # and return key and its datatype (if supported)
         return key, datatype if datatype in TomaticTypeCast.types() else None
 
-    key = key_raw
-
-    return key, None
+    return key_raw, None
 
 
 def type_cast(datatype: str, value_raw: ValueRawType) -> ValidValueType:
@@ -164,7 +158,7 @@ def type_cast(datatype: str, value_raw: ValueRawType) -> ValidValueType:
     Convert a given string to a specific data type, receive type to
     use as `datatype` and value to convert as `value_raw`. Supported
     data types are hardcoded but you can retrieve them
-    fromTomaticTypeCast.types() class method as well.
+    from `TomaticTypeCast.types()` class method as well.
 
     There are the following data types supported by buckets:
 
